@@ -1,0 +1,44 @@
+{
+  "name": "ruang.tour.trvael",
+  "version": "1.0.0",
+  "description": "tour & travel web apps",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "nodemon ./",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "tour travel"
+  ],
+  "author": "bagus putra t",
+  "license": "",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cls-hooked": "^4.2.2",
+    "connect-session-sequelize": "^7.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.6",
+    "express-jwt": "^5.3.3",
+    "express-session": "^1.17.1",
+    "i18n": "^0.8.6",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.27.0",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.1.0",
+    "path-to-regexp": "^6.1.0",
+    "pbkdf2": "^3.1.1",
+    "random-bytes": "^1.0.0",
+    "sequelize": "^6.3.4",
+    "uuid": "^3.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.6.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5",
+    "sequelize-cli": "^6.2.0",
+    "touch-cli": "0.0.1"
+  }
+}
