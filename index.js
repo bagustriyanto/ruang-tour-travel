@@ -4,6 +4,7 @@ const bodyParser = require("body-parser")
 const cors = require("cors")
 const env = process.env.NODE_ENV || "development"
 const config = require("./server/config/config.json").token[env]
+const route = require("./route")
 const whitelistDomain = require("./server/config/config.json").whitelistDomain
 const jwtConfig = require("./server/config/jwtConfig")
 const errorHandler = require("./server/helper/errorHelper")
@@ -82,8 +83,8 @@ app.use(i18n.init)
 app.use(jwtConfig())
 app.use(errorHandler)
 
-require("./server/routes")(app)
 // setup a default catch-all route that sends back a welcome message json format
+route(app)
 
 // define upload folder
 if (!fs.existsSync("./public")) {
