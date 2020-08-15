@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.credential, { foreignKey: credential_id })
-      this.belongsTo(models.destination_package, { foreignKey: package_id })
+      this.belongsTo(models.credential, { foreignKey: 'credential_id' })
+      this.belongsTo(models.destination_package, { foreignKey: 'package_id' })
     }
   };
   trx_book_destination.init({

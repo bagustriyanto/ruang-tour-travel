@@ -19,5 +19,24 @@
     "database": "tour_travel",
     "host": "127.0.0.1",
     "dialect": "mysql"
-  }
+  },
+  "token": {
+    "development": {
+      "issuer": "admin.saraya.nodejs",
+      "audience": "public.saraya",
+      "secret": "165110a0-c609-4203-9b30-605ac375df79",
+      "expiresIn": "30m"
+    },
+    "production": {
+      "issuer": "admin.saraya.nodejs",
+      "audience": "public.saraya",
+      "secret": "165110a0-c609-4203-9b30-605ac375df79",
+      "expiresIn": "30m"
+    }
+  },
+  "whitelistDomain": [
+    "http://localhost:8081",
+    "http://localhost:8082",
+    "https://santayuk.com"
+  ]
 }
