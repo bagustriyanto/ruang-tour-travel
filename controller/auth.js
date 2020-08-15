@@ -10,6 +10,19 @@ const AuthController = (app) => {
         res.status(400).send({ message: err.message });
       });
   });
+
+  app.post('/api/login', function (req, res, next) {
+    AuthService.login(req)
+      .then((result) => {
+        if (!req.session.user) req.session.user = result.username;
+        res
+          .status(200)
+          .send({ message: 'Login berhasil', token: result.token });
+      })
+      .catch((err) => {
+        res.status(401).send({ message: 'Login gagal' });
+      });
+  });
 };
 
 module.exports = AuthController;

@@ -22,14 +22,14 @@
   },
   "token": {
     "development": {
-      "issuer": "admin.saraya.nodejs",
-      "audience": "public.saraya",
+      "issuer": "api.ruang.tour.travel",
+      "audience": "customer.ruang.tour.travel",
       "secret": "165110a0-c609-4203-9b30-605ac375df79",
       "expiresIn": "30m"
     },
     "production": {
-      "issuer": "admin.saraya.nodejs",
-      "audience": "public.saraya",
+      "issuer": "api.ruang.tour.travel",
+      "audience": "customer.ruang.tour.travel",
       "secret": "165110a0-c609-4203-9b30-605ac375df79",
       "expiresIn": "30m"
     }

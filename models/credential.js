@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       is_admin: DataTypes.BOOLEAN,
       password: DataTypes.STRING,
       salt: DataTypes.STRING,
+      token: DataTypes.VIRTUAL,
     },
     {
       sequelize,
