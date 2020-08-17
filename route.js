@@ -1,4 +1,5 @@
 const AuthController = require('./controller/auth');
+const DestinationController = require('./controller/destination');
 
 module.exports = (app) => {
   app.get('/api', (req, res) => {
@@ -6,4 +7,5 @@ module.exports = (app) => {
   });
 
   AuthController(app);
+  DestinationController(app);
 };

@@ -15,7 +15,7 @@ class DestinationService {
         status,
       });
     } catch (error) {
-      return error;
+      throw error;
     }
   };
 
@@ -43,7 +43,7 @@ class DestinationService {
         );
       }
     } catch (error) {
-      return error;
+      throw error;
     }
   };
 
@@ -68,13 +68,15 @@ class DestinationService {
       return await destination.findAndCountAll({
         where: {
           [Op.or]: [
-            where(fn('lower', col('name')), fn('lower', name)),
-            where(fn('lower', col('city')), fn('lower', city)),
-            where(fn('lower', col('province')), fn('lower', province)),
-            { status: status },
+            name !== '' ? { name: { [Op.like]: `%${name}%` } } : { name: null },
+            city !== '' ? { city: { [Op.like]: `%${city}%` } } : { city: null },
+            province !== ''
+              ? { province: { [Op.like]: `%${province}%` } }
+              : { province: null },
+            status !== '' ? { status: status } : { status: null },
           ],
         },
-        limit: limit,
+        limit: parseInt(limit),
         offset: (page - 1) * limit,
       });
     } catch (error) {
@@ -90,7 +92,7 @@ class DestinationService {
 
       return singleDestination;
     } catch (error) {
-      return error;
+      throw error;
     }
   };
 }
