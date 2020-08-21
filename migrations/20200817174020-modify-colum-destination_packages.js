@@ -10,11 +10,6 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.changeColumn(
-      'destination_pacakges',
-      'destination_id',
-      { type: Sequelize.INTEGER, allowNull: false }
-    );
     await queryInterface.changeColumn('destination_packages', 'name', {
       type: Sequelize.STRING,
       allowNull: false,
@@ -23,7 +18,7 @@ module.exports = {
       type: Sequelize.DECIMAL,
       allowNull: false,
     });
-    await queryInterface.changeColumn('destination_packages', 'cuurency', {
+    await queryInterface.changeColumn('destination_packages', 'currency', {
       type: Sequelize.STRING(3),
       allowNull: false,
       defaultValue: 'IDR',
@@ -37,11 +32,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.changeColumn(
-      'destination_pacakges',
-      'destination_id',
-      { type: Sequelize.INTEGER, allowNull: true }
-    );
     await queryInterface.changeColumn('destination_packages', 'name', {
       type: Sequelize.STRING,
       allowNull: true,
@@ -50,7 +40,7 @@ module.exports = {
       type: Sequelize.DECIMAL,
       allowNull: true,
     });
-    await queryInterface.changeColumn('destination_packages', 'cuurency', {
+    await queryInterface.changeColumn('destination_packages', 'currency', {
       type: Sequelize.STRING,
       allowNull: true,
     });

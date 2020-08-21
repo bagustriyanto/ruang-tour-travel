@@ -53,7 +53,7 @@ const DestinationController = (app) => {
 
   app.delete('/api/destination/:id', (req, res, next) => {
     const response = new Response();
-    DestinationService.editDestination(req)
+    DestinationService.deleteDestination(req)
       .then(() => {
         res.status(200).send(response.set(true, 'Destinasi berhasil dihapus'));
       })

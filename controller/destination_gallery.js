@@ -13,7 +13,7 @@ const DestinantionGalleryController = (app) => {
       });
   });
 
-  app.post('/api/destination', (req, res, next) => {
+  app.post('/api/gallery', (req, res, next) => {
     const response = new Response();
     DestinationGalleryService.addDestGallery(req)
       .then(() => {
@@ -24,7 +24,7 @@ const DestinantionGalleryController = (app) => {
       });
   });
 
-  app.put('/api/destination/:id', (req, res, next) => {
+  app.put('/api/gallery/:id', (req, res, next) => {
     const response = new Response();
     DestinationGalleryService.editDestGallery(req)
       .then(() => {
@@ -35,9 +35,9 @@ const DestinantionGalleryController = (app) => {
       });
   });
 
-  app.delete('/api/destination/:id', (req, res, next) => {
+  app.delete('/api/gallery/:id', (req, res, next) => {
     const response = new Response();
-    DestinationGalleryService.removeDestGallery(req)
+    DestinationGalleryService.deleteDestGallery(req)
       .then(() => {
         res.status(200).send(response.set(true, 'Destinasi berhasil dihapus'));
       })

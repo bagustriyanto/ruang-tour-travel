@@ -18,6 +18,12 @@ function jwt() {
       { url: '/api/blog', method: 'GET' },
       { url: '/api', method: 'GET' },
       { url: '/api/registration', method: 'POST' },
+      { url: '/api/destination', method: 'GET' },
+      { url: pathToRegexp('/api/destination/:id'), method: 'GET' },
+      { url: '/api/gallery', method: 'GET' },
+      { url: pathToRegexp('/api/gallery/:id'), method: 'GET' },
+      { url: '/api/package', method: 'GET' },
+      { url: pathToRegexp('/api/package/:id'), method: 'GET' },
     ],
   });
 }

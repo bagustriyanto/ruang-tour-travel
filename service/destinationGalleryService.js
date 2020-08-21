@@ -25,7 +25,7 @@ class DestinationGalleryService {
       throw error;
     }
   };
-  static removeDestGallery = async (req) => {
+  static deleteDestGallery = async (req) => {
     try {
       const { id } = req.body;
 
