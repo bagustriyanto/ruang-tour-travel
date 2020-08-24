@@ -19,22 +19,16 @@
           <!-- end: Page title -->
           <div class="row">
             <div class="col-lg-12">
-              <a
+              <router-link
+                to="/master/destinasi/create"
                 class="btn btn-sm btn-slide btn-primary btn-outline"
                 data-width="100"
-                href="admin_destinasi_create.html"
                 style="float: right;"
               >
-                <i
-                  class="fa fa-plus"
-                  style="color: #F8F9FA"
-                ></i>
+                <i class="fa fa-plus" style="color: #F8F9FA"></i>
                 <span>Tambah</span>
-              </a>
-              <Table
-                id="destinasiTable"
-                :config="config"
-              ></Table>
+              </router-link>
+              <Table id="destinasiTable" :config="config"></Table>
             </div>
           </div>
         </div>

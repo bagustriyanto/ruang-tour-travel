@@ -7,7 +7,9 @@
     </div>
     <!-- end: AUTHOR NAME -->
     <Footer />
-    <a id="scrollTop"><i class="icon-chevron-up"></i><i class="icon-chevron-up"></i></a>
+    <a id="scrollTop"
+      ><i class="icon-chevron-up"></i><i class="icon-chevron-up"></i
+    ></a>
   </div>
 </template>
 <script>
@@ -23,7 +25,7 @@ export default {
   },
   beforeCreate() {
     setTimeout(() => {
-      Vue.loadScript('../js/functions.js');
+      Vue.loadScript('/js/functions.js');
     }, 500);
   }
 };
