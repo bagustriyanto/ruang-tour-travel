@@ -28,9 +28,7 @@
               <div class="card-body">
                 <form>
                   <div class="form-group row">
-                    <label class="col-form-label col-sm-2 text-sm-right"
-                      >Nama</label
-                    >
+                    <label class="col-form-label col-sm-2 text-sm-right">Nama</label>
                     <div class="col-sm-10">
                       <input
                         type="text"
@@ -52,9 +50,7 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label class="col-form-label col-sm-2 text-sm-right"
-                      >Provinsi</label
-                    >
+                    <label class="col-form-label col-sm-2 text-sm-right">Provinsi</label>
                     <div class="col-sm-10">
                       <select
                         class="form-control"
@@ -69,8 +65,7 @@
                           v-for="(item, index) in provinceList"
                           :key="index"
                           :value="item.id"
-                          >{{ item.nama }}</option
-                        >
+                        >{{ item.nama }}</option>
                       </select>
                     </div>
                     <div class="col-form-label col-sm-2 text-sm-right"></div>
@@ -82,9 +77,7 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label class="col-form-label col-sm-2 text-sm-right"
-                      >Kota/Kabupaten</label
-                    >
+                    <label class="col-form-label col-sm-2 text-sm-right">Kota/Kabupaten</label>
                     <div class="col-sm-10">
                       <select
                         class="form-control"
@@ -98,8 +91,7 @@
                           v-for="(item, index) in cityList"
                           :key="index"
                           :value="item.id"
-                          >{{ item.nama }}</option
-                        >
+                        >{{ item.nama }}</option>
                       </select>
                       <div
                         class="col-sm-10 is-invalid"
@@ -110,19 +102,19 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label class="col-form-label col-sm-2 text-sm-right"
-                      >Deskripsi</label
-                    >
+                    <label class="col-form-label col-sm-2 text-sm-right">Deskripsi</label>
                     <div class="col-sm-10">
-                      <Summernote id="summernote" :type="0"></Summernote>
+                      <Summernote
+                        id="summernote"
+                        :type="0"
+                      ></Summernote>
                     </div>
                   </div>
                   <div class="form-group row">
                     <label
                       class="col-form-label col-sm-2 text-sm-right"
                       for="status"
-                      >Status</label
-                    >
+                    >Status</label>
                     <div class="col-sm-10">
                       <select
                         class="form-control"
@@ -144,6 +136,72 @@
                       Status wajib dipilih.
                     </div>
                   </div>
+                  <!--File upload 3-->
+                  <div class="form-group row">
+                    <label
+                      for="telephone"
+                      class="col-form-label col-sm-2 text-sm-right"
+                    >Thumbnail</label>
+                    <div class="col-sm-10">
+                      <a class="dropzone-attach-files btn btn-sm mb-0">Browse</a>
+                      <div
+                        class="d-none dropzone"
+                        id="fileUpload3"
+                        action="/file-upload"
+                      >
+                        <div class="fallback">
+                          <input
+                            name="file"
+                            type="file"
+                          />
+                        </div>
+                      </div>
+                      <!-- Preview -->
+                      <div
+                        class="mt-3 col-sm-6"
+                        id="formFiles3"
+                      ></div>
+                      <!-- File preview template -->
+                      <div
+                        class="d-none"
+                        id="formTemplate3"
+                      >
+                        <div class="card mb-3">
+                          <div class="p-2">
+                            <div class="row align-items-start">
+                              <div class="col-auto">
+                                <img
+                                  data-dz-thumbnail
+                                  src="#"
+                                  class="avatar border rounded"
+                                >
+                              </div>
+                              <div class="col pl-0">
+                                <a
+                                  href="#"
+                                  class="text-muted font-weight-bold"
+                                  data-dz-name
+                                ></a>
+                                <p class="mb-0"><small data-dz-size></small> <small
+                                    class="d-block text-danger"
+                                    data-dz-errormessage
+                                  ></small></p>
+                              </div>
+                              <div class="col-auto pt-2">
+                                <a
+                                  class="btn-lg text-danger"
+                                  href="#"
+                                  data-dz-remove
+                                ><i class="icon-trash-2"></i></a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end: File preview template -->
+                    </div>
+                  </div>
+                  <!--end: File upload 3-->
                   <div class="form-group row">
                     <div class="col-sm-10 ml-sm-auto">
                       <button
@@ -164,10 +222,17 @@
     </section>
   </div>
 </template>
+<style scoped>
+#formFiles3 {
+  padding-left: 0;
+}
+</style>
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
 import Summernote from '@/components/Summernote.vue';
 import axios from 'axios';
+
+window.Dropzone.autoDiscover = false;
 
 export default {
   name: 'MasterDestinasiForm',
@@ -214,6 +279,16 @@ export default {
       .then(result => {
         vm.provinceList = result.data.provinsi;
       });
+
+    const form3 = window.$('#fileUpload3');
+    form3.dropzone({
+      autoQueue: false,
+      maxFilesize: 1,
+      acceptedFiles: 'image/*',
+      previewsContainer: '#formFiles3',
+      previewTemplate: $('#formTemplate3').html(),
+      clickable: '.dropzone-attach-files'
+    });
   },
   methods: {
     provinsiOnChange(provinceId) {
@@ -230,6 +305,9 @@ export default {
       const vm = this;
       vm.change = true;
       vm.$v.$touch();
+
+      if (!vm.$v.invalid) {
+      }
     }
   }
 };
