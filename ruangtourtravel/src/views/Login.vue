@@ -13,14 +13,16 @@
           </div>
           <div class="row">
             <div class="col-lg-5 center p-50 background-white b-r-6">
-              <h3>Login to your Account</h3>
+              <h3>Masuk ke akun kamu</h3>
               <form>
                 <div class="form-group">
                   <label class="sr-only">Username</label>
                   <input
                     type="text"
                     class="form-control"
+                    :class="{'is-invalid': !$v.username.required && change}"
                     placeholder="Username"
+                    v-model="$v.username.$model"
                   />
                 </div>
                 <div class="form-group m-b-5">
@@ -28,14 +30,16 @@
                   <input
                     type="password"
                     class="form-control"
+                    :class="{'is-invalid': !$v.password.required && change}"
                     placeholder="Password"
+                    v-model="$v.password.$model"
                   />
                 </div>
                 <div class="form-group form-inline text-left">
                   <div class="form-check">
                     <label>
                       <input type="checkbox" /><small class="m-l-10">
-                        Remember me</small>
+                        Ingatkan saya</small>
                     </label>
                   </div>
                 </div>
@@ -43,13 +47,13 @@
                   <button
                     type="button"
                     class="btn"
-                    :click="login"
+                    v-on:click="login()"
                   >Login</button>
                 </div>
               </form>
               <p class="small">
-                Don't have an account yet?
-                <a href="register.html">Register New Account</a>
+                Belum punya akun?
+                <router-link to="/registrasi">Buat akun baru</router-link>
               </p>
             </div>
           </div>
@@ -65,6 +69,7 @@
 </style>
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
+// import axios from 'axios';
 
 export default {
   name: 'Login',
@@ -85,7 +90,15 @@ export default {
       vm.change = true;
       vm.$v.$touch();
 
-      if (!vm.$v.invalid) {
+      if (!vm.$v.error) {
+        vm.showNotif('Wow', 2);
+        axios
+          .post(`${vm.$apiUrl}/api/login`, {
+            username: vm.username,
+            password: vm.password
+          })
+          .then(result => {})
+          .catch(err => {});
       }
     }
   }
