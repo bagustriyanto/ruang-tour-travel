@@ -17,10 +17,14 @@ const AuthController = (app) => {
         if (!req.session.user) req.session.user = result.username;
         res
           .status(200)
-          .send({ message: 'Login berhasil', token: result.token });
+          .send({
+            message: 'Login berhasil',
+            token: result.token,
+            status: true,
+          });
       })
       .catch((err) => {
-        res.status(401).send({ message: 'Login gagal' });
+        res.status(401).send({ message: 'Login gagal', status: false });
       });
   });
 };

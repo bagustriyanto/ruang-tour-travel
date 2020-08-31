@@ -5,6 +5,7 @@ import router from './router';
 import Vuelidate from 'vuelidate';
 import LoadScript from 'vue-plugin-load-script';
 import config from './config.json';
+import axios from 'axios';
 
 Vue.config.productionTip = false;
 
@@ -61,9 +62,22 @@ Vue.mixin({
           '<span data-notify="message">{2}</span>' +
           '</div>'
       });
+    },
+    loginCheck() {
+      const loggedIn = localStorage.getItem('isLogin');
+      if (loggedIn) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 });
+
+const token = localStorage.getItem('token');
+if (token) {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+}
 
 new Vue({
   router,

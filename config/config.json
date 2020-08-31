@@ -34,9 +34,5 @@
       "expiresIn": "30m"
     }
   },
-  "whitelistDomain": [
-    "http://localhost:8081",
-    "http://localhost:8082",
-    "https://santayuk.com"
-  ]
+  "whitelistDomain": ["http://localhost:8083"]
 }

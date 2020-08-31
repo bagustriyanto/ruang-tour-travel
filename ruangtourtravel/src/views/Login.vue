@@ -69,7 +69,7 @@
 </style>
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
-// import axios from 'axios';
+import axios from 'axios';
 
 export default {
   name: 'Login',
@@ -90,15 +90,28 @@ export default {
       vm.change = true;
       vm.$v.$touch();
 
-      if (!vm.$v.error) {
-        vm.showNotif('Wow', 2);
+      if (!vm.$v.$error) {
         axios
           .post(`${vm.$apiUrl}/api/login`, {
             username: vm.username,
             password: vm.password
           })
-          .then(result => {})
-          .catch(err => {});
+          .then(({ data }) => {
+            const { status, message, token } = data;
+            if (status) {
+              vm.showNotif(message, 1);
+              localStorage.setItem('token', token);
+              localStorage.setItem('isLogin', true);
+              setTimeout(() => {
+                vm.$router.push('home');
+              }, 1000);
+            } else {
+              vm.showNotif(message, 0);
+            }
+          })
+          .catch(err => {
+            vm.showNotif(err.message, 0);
+          });
       }
     }
   }

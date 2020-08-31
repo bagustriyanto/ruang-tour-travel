@@ -55,7 +55,10 @@
                     replace
                   >Destinasi</router-link>
                 </li>
-                <li class="dropdown">
+                <li
+                  class="dropdown"
+                  v-if="loggedIn"
+                >
                   <a href="#">Admin</a>
                   <ul class="dropdown-menu">
                     <li class="dropdown-submenu">
@@ -67,8 +70,11 @@
                     </li>
                   </ul>
                 </li>
-                <li><a href="#">Logout</a></li>
-                <li>
+                <li v-if="loggedIn"><a
+                    href="#"
+                    v-on:click="logout()"
+                  >Logout</a></li>
+                <li v-if="!loggedIn">
                   <router-link to="login">Login</router-link>
                 </li>
               </ul>
@@ -83,6 +89,28 @@
 </template>
 <script>
 export default {
-  name: 'Header'
+  name: 'Header',
+  data() {
+    return {
+      loggedIn: false
+    };
+  },
+  created() {
+    const vm = this;
+    vm.loggedIn = vm.loginCheck();
+  },
+  methods: {
+    logout() {
+      const vm = this;
+      localStorage.removeItem('token');
+      localStorage.removeItem('isLogin');
+
+      if (vm.$route.name !== 'Home') {
+        vm.$router.push('home');
+      } else {
+        window.location.reload();
+      }
+    }
+  }
 };
 </script>
