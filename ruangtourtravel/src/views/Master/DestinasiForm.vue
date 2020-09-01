@@ -58,13 +58,13 @@
                           'is-invalid': !$v.form.province.required && change
                         }"
                         v-model="$v.form.province.$model"
-                        :change="provinsiOnChange($v.form.province.$model)"
+                        v-on:change="provinsiOnChange"
                       >
                         <option value="">-- Pilih Provinsi --</option>
                         <option
                           v-for="(item, index) in provinceList"
                           :key="index"
-                          :value="item.id"
+                          :value="item.nama"
                         >{{ item.nama }}</option>
                       </select>
                     </div>
@@ -90,7 +90,7 @@
                         <option
                           v-for="(item, index) in cityList"
                           :key="index"
-                          :value="item.id"
+                          :value="item.nama"
                         >{{ item.nama }}</option>
                       </select>
                       <div
@@ -107,6 +107,7 @@
                       <Summernote
                         id="summernote"
                         :type="0"
+                        v-model="form.description"
                       ></Summernote>
                     </div>
                   </div>
@@ -122,6 +123,7 @@
                           'is-invalid': !$v.form.city.required && change
                         }"
                         name="status"
+                        v-model="$v.form.status.$model"
                       >
                         <option value="">-- Pilih Status --</option>
                         <option value="0">Non Aktif</option>
@@ -146,7 +148,7 @@
                       <a class="dropzone-attach-files btn btn-sm mb-0">Browse</a>
                       <div
                         class="d-none dropzone"
-                        id="fileUpload3"
+                        id="thumbnail"
                         action="/file-upload"
                       >
                         <div class="fallback">
@@ -159,12 +161,12 @@
                       <!-- Preview -->
                       <div
                         class="mt-3 col-sm-6"
-                        id="formFiles3"
+                        id="formFiles"
                       ></div>
                       <!-- File preview template -->
                       <div
                         class="d-none"
-                        id="formTemplate3"
+                        id="formTemplate"
                       >
                         <div class="card mb-3">
                           <div class="p-2">
@@ -269,7 +271,7 @@ export default {
       name: { required, minLength: minLength(3) },
       province: { required },
       city: { required },
-      status: required
+      status: { required }
     }
   },
   mounted() {
@@ -280,22 +282,34 @@ export default {
         vm.provinceList = result.data.provinsi;
       });
 
-    const form3 = window.$('#fileUpload3');
-    form3.dropzone({
+    const thumbnail = window.$('#thumbnail');
+    thumbnail.dropzone({
       autoQueue: false,
       maxFilesize: 1,
       acceptedFiles: 'image/*',
-      previewsContainer: '#formFiles3',
-      previewTemplate: $('#formTemplate3').html(),
-      clickable: '.dropzone-attach-files'
+      previewsContainer: '#formFiles',
+      previewTemplate: $('#formTemplate').html(),
+      clickable: '.dropzone-attach-files',
+      init: function() {
+        this.on('addedfile', function(file) {
+          const reader = new FileReader();
+          reader.onloadend = function() {
+            vm.form.thumbnail = reader.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
     });
   },
   methods: {
-    provinsiOnChange(provinceId) {
+    provinsiOnChange() {
       const vm = this;
+      const filterProvince = vm.provinceList.filter(function(item) {
+        return item.nama === vm.form.province;
+      });
       axios
         .get(
-          `https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${provinceId}`
+          `https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${filterProvince[0].id}`
         )
         .then(result => {
           vm.cityList = result.data.kota_kabupaten;
@@ -307,7 +321,29 @@ export default {
       vm.$v.$touch();
 
       if (!vm.$v.invalid) {
+        axios
+          .post(`${vm.$apiUrl}/api/destination`, vm.form)
+          .then(({ data }) => {
+            const { message, status } = data;
+            vm.showNotif(message, status ? 1 : 0);
+            vm.reset();
+          })
+          .catch(err => {
+            vm.showNotif(err.message, 0);
+          });
       }
+    },
+    reset() {
+      const vm = this;
+      vm.change = false;
+      vm.form = {
+        name: '',
+        city: '',
+        province: '',
+        description: '',
+        thumbnail: '',
+        status: ''
+      };
     }
   }
 };

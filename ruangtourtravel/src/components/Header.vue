@@ -57,7 +57,7 @@
                 </li>
                 <li
                   class="dropdown"
-                  v-if="loggedIn"
+                  v-if="loggedIn && isAdmin"
                 >
                   <a href="#">Admin</a>
                   <ul class="dropdown-menu">
@@ -92,12 +92,14 @@ export default {
   name: 'Header',
   data() {
     return {
-      loggedIn: false
+      loggedIn: false,
+      isAdmin: false
     };
   },
   created() {
     const vm = this;
     vm.loggedIn = vm.loginCheck();
+    vm.isAdmin = vm.adminCheck();
   },
   methods: {
     logout() {

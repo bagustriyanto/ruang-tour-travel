@@ -97,11 +97,12 @@ export default {
             password: vm.password
           })
           .then(({ data }) => {
-            const { status, message, token } = data;
+            const { status, message, token, data: user } = data;
             if (status) {
               vm.showNotif(message, 1);
               localStorage.setItem('token', token);
               localStorage.setItem('isLogin', true);
+              localStorage.setItem('is_admin', user.is_admin);
               setTimeout(() => {
                 vm.$router.push('home');
               }, 1000);

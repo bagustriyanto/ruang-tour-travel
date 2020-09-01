@@ -70,6 +70,10 @@ Vue.mixin({
       } else {
         return false;
       }
+    },
+    adminCheck() {
+      const isAdmin = localStorage.getItem('is_admin');
+      return isAdmin;
     }
   }
 });

@@ -15,13 +15,12 @@ const AuthController = (app) => {
     AuthService.login(req)
       .then((result) => {
         if (!req.session.user) req.session.user = result.username;
-        res
-          .status(200)
-          .send({
-            message: 'Login berhasil',
-            token: result.token,
-            status: true,
-          });
+        res.status(200).send({
+          message: 'Login berhasil',
+          token: result.token,
+          status: true,
+          data: result,
+        });
       })
       .catch((err) => {
         res.status(401).send({ message: 'Login gagal', status: false });
