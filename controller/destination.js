@@ -8,7 +8,19 @@ const DestinationController = (app) => {
     DestinationService.getDestination(req)
       .then((result) => {
         if (result)
-          res.status(200).send(response.set(true, 'Fetch success', result));
+          res
+            .status(200)
+            .send(
+              response.set(
+                true,
+                'Fetch success',
+                result.rows,
+                null,
+                result.rows.length,
+                result.count,
+                req.query.draw
+              )
+            );
         else res.status(200).send(response.set(true, 'Data tidak ditemukan'));
       })
       .catch((err) => {

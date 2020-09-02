@@ -63,7 +63,7 @@ class DestinationService {
 
   static getDestination = async (req) => {
     try {
-      const { name, city, province, status, limit, page = 1 } = req.query;
+      const { name, city, province, status, length, start } = req.query;
 
       return await destination.findAndCountAll({
         where: {
@@ -76,8 +76,8 @@ class DestinationService {
             status !== '' ? { status: status } : { status: null },
           ],
         },
-        limit: parseInt(limit),
-        offset: (page - 1) * limit,
+        limit: parseInt(length),
+        offset: (start + 1) * length,
       });
     } catch (error) {
       throw error;

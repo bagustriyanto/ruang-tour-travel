@@ -6,34 +6,34 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       username: {
-        type: Sequelize.STRING(50)
+        type: Sequelize.STRING(50),
       },
       email: {
-        type: Sequelize.STRING(100)
+        type: Sequelize.STRING(100),
       },
       fullname: {
-        type: Sequelize.STRING(50)
+        type: Sequelize.STRING(50),
       },
       phone: {
-        type: Sequelize.STRING(20)
+        type: Sequelize.STRING(20),
       },
       is_admin: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       created_at: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updated_at: {
         allowNull: true,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('credentials');
-  }
+  },
 };

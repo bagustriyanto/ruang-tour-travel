@@ -14,8 +14,12 @@
                 <h6 class="card-subtitle text-muted">
                   <div class="breadcrumb float-left">
                     <ul>
-                      <li><a href="#">Home</a></li>
-                      <li><a href="#">Master Destinasi</a></li>
+                      <li>
+                        <router-link to="/home">Beranda</router-link>
+                      </li>
+                      <li class="active">
+                        <router-link to="/master/destinasi">Master Destinasi</router-link>
+                      </li>
                       <li class="active">
                         <a href="#">{{
                           $route.params.type === 'create' ? 'Tambah' : 'Ubah'
@@ -241,7 +245,7 @@ export default {
   components: {
     Summernote
   },
-  beforeRouteEnter(to, from, next) {
+  beforeRouteEnter (to, from, next) {
     /* eslint-disable */
     if (to.params.type !== 'create' && to.params.type !== 'edit') {
       next({
@@ -251,7 +255,7 @@ export default {
       next();
     }
   },
-  data() {
+  data () {
     return {
       change: false,
       form: {
@@ -274,7 +278,7 @@ export default {
       status: { required }
     }
   },
-  mounted() {
+  mounted () {
     const vm = this;
     axios
       .get('https://dev.farizdotid.com/api/daerahindonesia/provinsi')
@@ -290,10 +294,10 @@ export default {
       previewsContainer: '#formFiles',
       previewTemplate: $('#formTemplate').html(),
       clickable: '.dropzone-attach-files',
-      init: function() {
-        this.on('addedfile', function(file) {
+      init: function () {
+        this.on('addedfile', function (file) {
           const reader = new FileReader();
-          reader.onloadend = function() {
+          reader.onloadend = function () {
             vm.form.thumbnail = reader.result;
           };
           reader.readAsDataURL(file);
@@ -302,9 +306,9 @@ export default {
     });
   },
   methods: {
-    provinsiOnChange() {
+    provinsiOnChange () {
       const vm = this;
-      const filterProvince = vm.provinceList.filter(function(item) {
+      const filterProvince = vm.provinceList.filter(function (item) {
         return item.nama === vm.form.province;
       });
       axios
@@ -315,7 +319,7 @@ export default {
           vm.cityList = result.data.kota_kabupaten;
         });
     },
-    submit() {
+    submit () {
       const vm = this;
       vm.change = true;
       vm.$v.$touch();
@@ -333,7 +337,7 @@ export default {
           });
       }
     },
-    reset() {
+    reset () {
       const vm = this;
       vm.change = false;
       vm.form = {
