@@ -36,8 +36,13 @@ const routes = [
         component: () => import('../views/Master/Destinasi.vue')
       },
       {
-        path: 'destinasi/:type',
-        name: 'Form Master Destinasi',
+        path: 'destinasi/create',
+        name: 'Create Master Destinasi',
+        component: () => import('../views/Master/DestinasiForm.vue')
+      },
+      {
+        path: 'destinasi/edit/:id',
+        name: 'Edit Master Destinasi',
         component: () => import('../views/Master/DestinasiForm.vue')
       }
     ]

@@ -245,20 +245,11 @@ export default {
   components: {
     Summernote
   },
-  beforeRouteEnter (to, from, next) {
-    /* eslint-disable */
-    if (to.params.type !== 'create' && to.params.type !== 'edit') {
-      next({
-        path: '/home'
-      });
-    } else {
-      next();
-    }
-  },
   data () {
     return {
       change: false,
       form: {
+        id: '',
         name: '',
         city: '',
         province: '',
@@ -284,6 +275,8 @@ export default {
       .get('https://dev.farizdotid.com/api/daerahindonesia/provinsi')
       .then(result => {
         vm.provinceList = result.data.provinsi;
+
+        vm.getDestination()
       });
 
     const thumbnail = window.$('#thumbnail');
@@ -292,7 +285,7 @@ export default {
       maxFilesize: 1,
       acceptedFiles: 'image/*',
       previewsContainer: '#formFiles',
-      previewTemplate: $('#formTemplate').html(),
+      previewTemplate: window.$('#formTemplate').html(),
       clickable: '.dropzone-attach-files',
       init: function () {
         this.on('addedfile', function (file) {
@@ -325,22 +318,18 @@ export default {
       vm.$v.$touch();
 
       if (!vm.$v.invalid) {
-        axios
-          .post(`${vm.$apiUrl}/api/destination`, vm.form)
-          .then(({ data }) => {
-            const { message, status } = data;
-            vm.showNotif(message, status ? 1 : 0);
-            vm.reset();
-          })
-          .catch(err => {
-            vm.showNotif(err.message, 0);
-          });
+        if (vm.form.id) {
+          vm.updateDestination()
+        } else {
+          vm.createDestination()
+        }
       }
     },
     reset () {
       const vm = this;
       vm.change = false;
       vm.form = {
+        id: '',
         name: '',
         city: '',
         province: '',
@@ -348,6 +337,52 @@ export default {
         thumbnail: '',
         status: ''
       };
+    },
+    getDestination () {
+      const vm = this;
+      const id = vm.$route.params.id
+
+      if (id) {
+        axios.get(`${vm.$apiUrl}/api/destination/${id}`).then(({ data }) => {
+          const { data: destination } = data
+
+          vm.form.id = destination.id
+          vm.form.name = destination.name
+          vm.form.province = destination.province
+
+          vm.provinsiOnChange()
+
+          vm.form.city = destination.city
+          vm.form.description = destination.description
+          vm.form.status = destination.status ? 1 : 0
+        })
+      }
+    },
+    createDestination () {
+      const vm = this
+      axios
+        .post(`${vm.$apiUrl}/api/destination`, vm.form)
+        .then(({ data }) => {
+          const { message, status } = data;
+          vm.showNotif(message, status ? 1 : 0);
+          vm.reset();
+        })
+        .catch(err => {
+          vm.showNotif(err.message, 0);
+        });
+    },
+    updateDestination () {
+      const vm = this
+      axios
+        .put(`${vm.$apiUrl}/api/destination/${vm.form.id}`, vm.form)
+        .then(({ data }) => {
+          const { message, status } = data;
+          vm.showNotif(message, status ? 1 : 0);
+          vm.reset();
+        })
+        .catch(err => {
+          vm.showNotif(err.message, 0);
+        });
     }
   }
 };

@@ -155,9 +155,24 @@ export default {
         { title: 'Name', data: 'name' },
         { title: 'Province', data: 'province' },
         { title: 'City', data: 'city' },
-        { title: 'Description', name: 'description' },
-        { title: 'Thumbnail', name: 'thumbnail' },
-        { title: 'Status', name: 'status' }
+        { title: 'Description', data: 'description' },
+        { title: 'Thumbnail', data: 'thumbnail' },
+        {
+          title: 'Status', data: 'status', render: function (data) {
+            if (data) {
+              return '<span class="badge badge-pill badge-primary">Aktif</span>'
+            } else {
+              return '<span class="badge badge-pill badge-danger">Non Aktif</span>'
+            }
+          }
+        },
+        {
+          title: 'Action', data: 'id',
+          render: function (data) {
+            return `<a class="ml-2" href="/master/destinasi/edit/${data}" data-toggle="tooltip" data-original-title="Edit"><i class="icon-edit"></i></a>
+                  <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Delete"><i class="icon-trash-2"></i></a>`
+          }
+        }
       ],
       drawCallback: function () {
         window.$('#destinasiTable_length').hide();
@@ -165,6 +180,10 @@ export default {
     }
     vm.$nextTick(() => {
       vm.table = window.$('#destinasiTable').DataTable(vm.config);
+      vm.table.on('click', '.icon-trash-2', function () {
+        const data = vm.table.row(window.$(this).closest('tr')).data();
+        vm.delete(data.id)
+      })
     });
   },
   mounted () {
@@ -183,6 +202,14 @@ export default {
     addDestinasi () {
       const vm = this
       vm.$router.push('/master/destinasi/create');
+    },
+    delete (id) {
+      const vm = this
+      axios.delete(`${vm.$apiUrl}/api/destination/${id}`).then(({ data }) => {
+        const { status, message } = data
+
+        vm.showNotif(message, status ? 1 : 0);
+      })
     }
   },
 };

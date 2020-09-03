@@ -68,16 +68,18 @@ class DestinationService {
       return await destination.findAndCountAll({
         where: {
           [Op.or]: [
-            name !== '' ? { name: { [Op.like]: `%${name}%` } } : { name: null },
-            city !== '' ? { city: { [Op.like]: `%${city}%` } } : { city: null },
+            name !== '' ? { name: { [Op.like]: `%${name}%` } } : null,
+            city !== '' ? { city: { [Op.like]: `%${city}%` } } : null,
             province !== ''
               ? { province: { [Op.like]: `%${province}%` } }
-              : { province: null },
-            status !== '' ? { status: status } : { status: null },
+              : null,
+            status !== ''
+              ? { status: status }
+              : { [Op.or]: [{ status: 0 }, { status: 1 }] },
           ],
         },
         limit: parseInt(length),
-        offset: (start + 1) * length,
+        offset: start * length,
       });
     } catch (error) {
       throw error;
